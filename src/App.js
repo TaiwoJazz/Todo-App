@@ -125,9 +125,14 @@ function App() {
     dispatchTodoList({ type: 'COMPLETED' });
   };
 
-  let length = JSON.parse(localStorage.getItem('todoLists')).filter(
-    task => task.complete === false
-  ).length;
+  const localStorageItems = localStorage.getItem('todoLists');
+  let length;
+
+  if (localStorageItems) {
+    length = JSON.parse(localStorage.getItem('todoLists')).filter(
+      task => task.complete === false
+    ).length;
+  }
 
   return (
     <div>
