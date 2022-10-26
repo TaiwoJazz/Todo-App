@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-
+import React, { useState, useContext } from 'react';
+import TodoContext from '../../stores/todo-context';
 import RadioButtonUncheckedSharpIcon from '@mui/icons-material/RadioButtonUncheckedSharp';
 import classes from './Input.module.css';
 
-const Input = props => {
+const Input = () => {
   const [enteredInput, setEnterInput] = useState('');
+
+  const todoCtx = useContext(TodoContext);
 
   const handleChange = e => {
     setEnterInput(e.target.value);
@@ -17,27 +19,28 @@ const Input = props => {
       return;
     }
 
-    props.onDone({
+    const task = {
       task: enteredInput,
       id: Math.random().toString(),
       complete: false
-    });
+    };
+
+    todoCtx.addTask(task);
     setEnterInput('');
   };
 
   return (
     <form className={classes.input} onSubmit={submitHandler}>
       <div>
-      <button>
-      <RadioButtonUncheckedSharpIcon />
-      </button>
-      <input
-        type='text'
-        placeholder='Enter task..'
-        onChange={handleChange}
-        value={enteredInput}
-      />
-
+        <button>
+          <RadioButtonUncheckedSharpIcon />
+        </button>
+        <input
+          type='text'
+          placeholder='Enter task..'
+          onChange={handleChange}
+          value={enteredInput}
+        />
       </div>
       <button type='submit'>+</button>
     </form>

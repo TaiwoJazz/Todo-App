@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import TodoContext from '../../stores/todo-context';
 import classes from './TodoMenu.module.css';
 
-const TodoMenu = props => {
+const TodoMenu = () => {
+  const todoCtx = useContext(TodoContext);
+
   return (
     <div className={classes.menu}>
-      <span>{props.todoLength} items left</span>
+      <span>{todoCtx.length} items left</span>
       <div>
-        <span onClick={props.allTask}>All</span>
-        <span onClick={props.filteredActive}>Active</span>
-        <span onClick={props.filteredComplected}>Complected</span>
+        <span onClick={todoCtx.allTask}>All</span>
+        <span onClick={todoCtx.active}>Active</span>
+        <span onClick={todoCtx.completed}>Complected</span>
       </div>
-      <span className={classes.clear} onClick={props.onClear}>
+      <span className={classes.clear} onClick={todoCtx.clearCompleted}>
         Clear Complected
       </span>
     </div>

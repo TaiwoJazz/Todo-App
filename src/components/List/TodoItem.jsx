@@ -4,23 +4,27 @@ import TodoMenu from './TodoMenu';
 import RadioButtonUncheckedSharpIcon from '@mui/icons-material/RadioButtonUncheckedSharp';
 import CloseSharpIcon from '@mui/icons-material/CloseSharp';
 // import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
+import TodoContext from '../../stores/todo-context';
+import { useContext } from 'react';
 
-const TodoItem = props => {
+const TodoItem = () => {
+  const todoCtx = useContext(TodoContext);
+
   const handleRemove = id => {
-    props.onDelete(id);
+    todoCtx.removeTask(id);
   };
 
   const handleCompleteTask = id => {
-    props.onComplete(id);
+    todoCtx.completedTask(id);
   };
 
   return (
     <div className={classes.item}>
       <ul>
-        {props.toDoList.tasks.length === 0 ? (
-          <p>No {props.toDoList.button} Task(s)</p>
+        {todoCtx.length === 0 ? (
+          <p>No {todoCtx.button} Task(s)</p>
         ) : (
-          props.toDoList.tasks.map(task => (
+          todoCtx.todoList.map(task => (
             <li
               key={task.id}
               id={task.id}
@@ -44,15 +48,7 @@ const TodoItem = props => {
           ))
         )}
       </ul>
-      {
-        <TodoMenu
-          todoLength={props.length}
-          allTask={props.allTask}
-          filteredActive={props.filteredActive}
-          filteredComplected={props.filteredComplected}
-          onClear={props.onClear}
-        />
-      }
+      {<TodoMenu />}
     </div>
   );
 };
